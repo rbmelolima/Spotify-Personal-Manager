@@ -95,6 +95,9 @@ npm run spotify -- playlist:add --playlist-id PLAYLIST_ID spotify:track:TRACK_ID
 
 # Remover faixas
 npm run spotify -- playlist:remove --playlist-id PLAYLIST_ID spotify:track:TRACK_ID --yes
+
+# Aplicar uma automação declarada em JSON (adição ou remoção)
+npm run spotify -- playlist:apply --file playlist-automation.json --yes
 ```
 
 As operações que modificam playlists pedem confirmação no terminal. Em scripts ou ambientes não interativos, use `--yes`; sem essa opção, a operação é interrompida por segurança.
@@ -114,7 +117,7 @@ O campo `tracks` aceita URIs, URLs de faixas ou objetos com `uri`.
 }
 ```
 
-`operation` e `playlistId` são opcionais no arquivo quando forem informados no comando ou escolhidos pela CLI. Álbuns, artistas e playlists não são aceitos como entrada de faixas.
+Para automações, use `playlist:apply --file arquivo.json --yes`. Nesse comando, `operation` e `playlistId` são obrigatórios e o ID é usado diretamente, sem busca pelo nome da playlist. Use o modelo em [`docs/templates/playlist-automation.json`](docs/templates/playlist-automation.json) e troque `operation` por `remove` quando necessário. Álbuns, artistas e playlists não são aceitos como entrada de faixas.
 
 ## Saídas e segurança
 

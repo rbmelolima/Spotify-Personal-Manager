@@ -35,6 +35,16 @@ Para remoção:
 }
 ```
 
+## 2.1 Automação por ID da playlist
+
+Use `playlist:apply` para executar o arquivo sem selecionar ou procurar uma playlist pelo nome:
+
+```bash
+npm run spotify -- playlist:apply --file playlist-automation.json --yes
+```
+
+Nesse modo, `operation` e `playlistId` são obrigatórios. O `playlistId` é enviado diretamente à API do Spotify. Há um modelo em [`templates/playlist-automation.json`](templates/playlist-automation.json).
+
 ## 3. Formato simplificado
 
 ```json
