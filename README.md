@@ -117,12 +117,12 @@ O campo `tracks` aceita URIs, URLs de faixas ou objetos com `uri`.
 }
 ```
 
-Para automações, use `playlist:apply --file arquivo.json --yes`. Nesse comando, `operation` e `playlistId` são obrigatórios e o ID é usado diretamente, sem busca pelo nome da playlist. Use o modelo em [`docs/templates/playlist-automation.json`](docs/templates/playlist-automation.json) e troque `operation` por `remove` quando necessário. Álbuns, artistas e playlists não são aceitos como entrada de faixas.
+Para automações, use `playlist:apply --file arquivo.json --yes`. Nesse comando, `operation` e `playlistId` são obrigatórios e o ID é usado diretamente, sem busca pelo nome da playlist. Consulte o guia completo em [`docs/11-importacao-arquivos-json.md`](docs/11-importacao-arquivos-json.md). Álbuns, artistas e playlists não são aceitos como entrada de faixas.
 
 ## Saídas e segurança
 
 - Exportações ficam em `exports/playlists` e `exports/playlist-items` por padrão.
-- Os JSONs são UTF-8, indentados e incluem data, versão do schema e metadados disponíveis.
+- O export de playlists contém somente ID, nome e quantidade de músicas. O export de músicas contém o nome da playlist e, para cada faixa, somente nome, artista e URI.
 - Tokens, exports, imports e logs são ignorados pelo Git.
 - Access token, refresh token, Client Secret e código OAuth nunca devem ser compartilhados ou versionados.
 

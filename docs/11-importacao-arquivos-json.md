@@ -1,104 +1,67 @@
-# Importação de arquivos JSON
+# Alterar playlists via JSON
 
-## 1. Objetivo
+Use um arquivo JSON para adicionar ou remover músicas sem procurar a playlist pelo nome. A alteração sempre usa o `playlistId` diretamente.
 
-Usar arquivos JSON como entrada para adicionar ou remover músicas em massa.
+## 1. Descobrir o ID da playlist
 
-## 2. Formato completo
+Exporte a lista de playlists:
+
+```bash
+npm run spotify -- export:playlists
+```
+
+No arquivo gerado em `exports/playlists`, localize a playlist pelo `name` e copie o valor de `id`.
+
+## 2. Criar o arquivo de alteração
+
+Copie o modelo [`templates/playlist-automation.json`](templates/playlist-automation.json) para um local de sua escolha e preencha-o. Os campos obrigatórios são:
+
+- `operation`: `add` para adicionar ou `remove` para remover;
+- `playlistId`: ID copiado no passo anterior;
+- `tracks`: lista de URIs, URLs ou objetos com `uri`.
+
+Exemplo para adicionar músicas:
 
 ```json
 {
   "operation": "add",
-  "playlistId": "playlist-id",
+  "playlistId": "37i9dQZF1DXcBWIGoYBM5M",
   "tracks": [
     {
-      "uri": "spotify:track:track-id-1"
+      "uri": "spotify:track:4uLU6hMCjMI75M1A2tKUQC"
     },
     {
-      "uri": "spotify:track:track-id-2"
+      "uri": "https://open.spotify.com/track/7ouMYWpwJ422jRcDASZB7P"
     }
   ]
 }
 ```
 
-Para remoção:
+Para remover, mantenha o mesmo formato e troque somente `"operation": "remove"`.
 
-```json
-{
-  "operation": "remove",
-  "playlistId": "playlist-id",
-  "tracks": [
-    {
-      "uri": "spotify:track:track-id-1"
-    }
-  ]
-}
-```
+## 3. Executar a alteração
 
-## 2.1 Automação por ID da playlist
-
-Use `playlist:apply` para executar o arquivo sem selecionar ou procurar uma playlist pelo nome:
+Execute o arquivo com confirmação no terminal:
 
 ```bash
-npm run spotify -- playlist:apply --file playlist-automation.json --yes
+npm run spotify -- playlist:apply --file caminho/playlist-automation.json
 ```
 
-Nesse modo, `operation` e `playlistId` são obrigatórios. O `playlistId` é enviado diretamente à API do Spotify. Há um modelo em [`templates/playlist-automation.json`](templates/playlist-automation.json).
+Para automações e scripts não interativos, acrescente `--yes`:
 
-## 3. Formato simplificado
-
-```json
-{
-  "tracks": [
-    "spotify:track:track-id-1",
-    "spotify:track:track-id-2"
-  ]
-}
+```bash
+npm run spotify -- playlist:apply --file caminho/playlist-automation.json --yes
 ```
 
-Quando operação ou playlist não estiverem no arquivo, a CLI deverá solicitá-las.
+A CLI mostra o ID de destino e a quantidade de URIs válidas antes de modificar a playlist. Arquivos com `operation` ou `playlistId` ausentes são recusados.
 
-## 4. Validação
+## 4. Reutilizar faixas de um export
 
-1. verificar existência do arquivo;
-2. ler como UTF-8;
-3. executar `JSON.parse`;
-4. validar estrutura com Zod;
-5. normalizar objetos e strings;
-6. validar URIs;
-7. identificar duplicidades;
-8. exibir prévia;
-9. solicitar confirmação.
+O export de músicas contém `playlistName` e objetos com `name`, `artist` e `uri`. Para reutilizar essas faixas, crie um arquivo de automação com o `playlistId` de destino, uma `operation` e copie os objetos de `tracks` para ele. Apenas o campo `uri` de cada objeto é usado na alteração.
 
-## 5. URLs
+## Restrições
 
-O importador também poderá aceitar URLs de faixa e convertê-las para URI.
-
-Exemplo:
-
-```text
-https://open.spotify.com/track/TRACK_ID
-```
-
-Resultado:
-
-```text
-spotify:track:TRACK_ID
-```
-
-## 6. Erros
-
-Exemplo:
-
-```text
-Não foi possível importar o arquivo.
-Arquivo: ./imports/add/academia.json
-Motivo: JSON inválido na linha 12, coluna 4.
-```
-
-## 7. Restrições
-
-- aceitar somente faixas no MVP;
-- não aceitar álbuns, artistas ou playlists como músicas;
-- não executar nenhuma alteração antes da confirmação;
-- não usar o arquivo completo de exportação como comando automático sem validação e seleção explícita da operação.
+- Apenas URIs ou URLs de faixas são aceitas.
+- Álbuns, artistas e playlists não são aceitos como entrada.
+- URIs repetidas são removidas antes da adição ou remoção.
+- A remoção remove todas as ocorrências da URI informada na playlist.

@@ -25,7 +25,6 @@ describe('ExportService', () => {
     const path = await service.playlistItemsToJson('p1');
     const exported = JSON.parse(await readFile(path, 'utf8'));
 
-    expect(exported.summary).toMatchObject({ exportedTracks: 1, unavailableItems: 0 });
-    expect(exported.items[0].track).toMatchObject({ id: 'track-1', name: 'Song' });
+    expect(exported).toEqual({ playlistName: 'Favorites', tracks: [{ name: 'Song', artist: 'Artist', uri: 'spotify:track:track-1' }] });
   });
 });
