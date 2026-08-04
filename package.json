@@ -1,0 +1,25 @@
+{
+  "name": "spotify_personal_manager_cli",
+  "version": "1.0.0",
+  "description": "a toolkit for spotify users",
+  "keywords": [
+    "spotify",
+    "toolkit",
+    "cli"
+  ],
+  "homepage": "https://github.com/rbmelolima/spotify_personal_manager_cli#readme",
+  "bugs": {
+    "url": "https://github.com/rbmelolima/spotify_personal_manager_cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rbmelolima/spotify_personal_manager_cli.git"
+  },
+  "license": "ISC",
+  "author": "rbmelolima",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
