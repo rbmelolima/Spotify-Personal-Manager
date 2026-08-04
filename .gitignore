@@ -71,7 +71,11 @@ web_modules/
 !.env.example
 storage/tokens/
 exports/
+!src/modules/exports/
+!src/modules/exports/**
 imports/
+!src/modules/imports/
+!src/modules/imports/**
 logs/
 
 # parcel-bundler cache (https://parceljs.org/)
