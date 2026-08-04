@@ -3,7 +3,7 @@ import { chunk, unique } from '../../shared/utils/collections.js';
 import type { SpotifyClient } from '../../shared/spotify/client.js';
 import type { AddPlaylistItemsInput, CreatePlaylistInput, Playlist, PlaylistUpdateResult, RemovePlaylistItemsInput, SpotifyPlaylist } from './types.js';
 
-const mapPlaylist = (item: SpotifyPlaylist): Playlist => ({ id: item.id, name: item.name, description: item.description ?? '', public: item.public ?? null, collaborative: Boolean(item.collaborative), snapshotId: item.snapshot_id, totalItems: item.tracks?.total ?? 0, uri: item.uri, externalUrl: item.external_urls?.spotify ?? null, owner: { id: item.owner?.id, displayName: item.owner?.display_name ?? null } });
+const mapPlaylist = (item: SpotifyPlaylist): Playlist => ({ id: item.id, name: item.name, description: item.description ?? '', public: item.public ?? null, collaborative: Boolean(item.collaborative), snapshotId: item.snapshot_id, totalItems: item.items?.total ?? item.tracks?.total ?? 0, uri: item.uri, externalUrl: item.external_urls?.spotify ?? null, owner: { id: item.owner?.id, displayName: item.owner?.display_name ?? null } });
 export class PlaylistService {
   constructor(private readonly client: SpotifyClient, private readonly batchSize = 100) {}
   async currentUser(): Promise<any> { return this.client.fetch('/me'); }
