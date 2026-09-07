@@ -1,0 +1,8 @@
+{
+  "operation": "add",
+  "playlistId": "SUBSTITUA_PELO_ID_DA_PLAYLIST",
+  "tracks": [
+    "spotify:track:SUBSTITUA_PELO_ID_DA_FAIXA_1",
+    "spotify:track:SUBSTITUA_PELO_ID_DA_FAIXA_2"
+  ]
+}
